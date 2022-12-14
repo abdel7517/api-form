@@ -11,8 +11,9 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 class FormController extends AbstractController
 {
+    
     /**
-     * @Route("/form", name="app_form")
+     * @Route("/", name="")
      */
     public function index(Request $request): JsonResponse
     {
@@ -29,9 +30,9 @@ class FormController extends AbstractController
             'email' => $payload['email'],
             'phone' => $payload['phone'],
             'zipcode' => $payload['zipcode'],
-            'house_ownership_type' => $payload['house_ownership_type'],
-            'house_type' => $payload['house_type'],
-            'heating_type' => $payload['heating_type'],
+            'house_ownership_type' => 'owner',
+            'house_type' => 'house',
+            'heating_type' => 'gas',
             /* Important always have the country code as bellow */
             '_zipcode_country' => 'FRA',
         ];
@@ -45,7 +46,7 @@ class FormController extends AbstractController
 
     private function vzlPushLead($data, $app_base_url = "https://boom.vezoa.com/", $source = null, $activity = null)
     {
-        try {
+        // try {
 
             $vzl_route = trim($app_base_url, '/') . "/api/v1/leads";
 
@@ -77,11 +78,11 @@ class FormController extends AbstractController
             //file_put_contents("log.txt", $vzl_response . "\n \n", FILE_APPEND);
 
             curl_close($vzl_ch);
-
             return $vzl_response;
 
-        } catch (\Throwable $th) {
-            return $th->getMessage();
-        }
+
+        // } catch (\Throwable $th) {
+        //     return $th->getMessage();
+        // }
     }
 }
